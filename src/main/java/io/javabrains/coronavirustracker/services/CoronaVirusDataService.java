@@ -42,13 +42,20 @@ public class CoronaVirusDataService {
             LocationStats locationStat = new LocationStats();
             locationStat.setState(record.get("Province/State"));
             locationStat.setCountry(record.get("Country/Region"));
-            int latestCases = Integer.parseInt(record.get(record.size() - 1));
-            int prevDayCases = Integer.parseInt(record.get(record.size() - 2));
+            int latestCases = convertString(record.get(record.size() - 1));
+            int prevDayCases = convertString(record.get(record.size() - 2));
             locationStat.setLatestTotalCases(latestCases);
             locationStat.setDiffFromPrevDay(latestCases - prevDayCases);
             newStats.add(locationStat);
         }
         this.allStats = newStats;
     }
+    
+    // Check if string is empty, return 0 when string is empty.
+    private int convertString(String data) {
+		return data.equals("")
+			? 0
+			: Integer.parseInt(data);
+	}
 
 }
